@@ -4,53 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "ffca30bfe57a024b",
+        "id": "b6cbf299baf75baf",
         "type": "tabs",
         "children": [
           {
-            "id": "05f508759a13cca2",
+            "id": "21e33ffe9185e783",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Spring Boot Annotations Full Signature.md",
+                "file": "Projects.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Spring Boot Annotations Full Signature"
-            }
-          },
-          {
-            "id": "25b22493eb2ddf8b",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Architecture Java, Maven.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Architecture Java, Maven"
-            }
-          },
-          {
-            "id": "2adda9ea10982f83",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Kafka.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Kafka"
+              "title": "Projects"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -198,26 +169,30 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "2adda9ea10982f83",
+  "active": "21e33ffe9185e783",
   "lastOpenFiles": [
-    "Architecture Java, Maven.md",
-    "Kafka.md",
+    "Pratik Tata.md",
+    "Projects.md",
+    "API.md",
+    "DBMS.md",
+    "Git.md",
     "Maven.md",
     "Spring Boot Annotations Full Signature.md",
-    "Spring Security.md",
     "System Design.md",
+    "Untitled.canvas",
+    "Untitled 2.base",
+    "Untitled 1.base",
+    "Architecture Java, Maven.md",
+    "Multi-threading and concurrency.md",
+    "Kafka.md",
+    "Spring Security.md",
     "Time complexity Cheat Sheet.md",
     "Untitled.base",
-    "Git.md",
-    "Multi-threading and concurrency.md",
-    "API.md",
     "Design Patterns.md",
-    "DBMS.md",
     "Misc.md",
     "DSA.md",
     "Hibernate.md",
     "Interview Prep.md",
-    "Pratik Tata.md",
     "Pasted image 20250927232551.png",
     "Java 8 to 21.md",
     "Master Guide to Software Design Diagrams.md",
