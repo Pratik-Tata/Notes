@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Projects.md",
+                "file": "Spring Security.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Projects"
+              "title": "Spring Security"
             }
           }
         ]
@@ -171,8 +171,8 @@
   },
   "active": "21e33ffe9185e783",
   "lastOpenFiles": [
-    "Pratik Tata.md",
     "Projects.md",
+    "Pratik Tata.md",
     "API.md",
     "DBMS.md",
     "Git.md",
