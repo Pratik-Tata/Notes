@@ -834,3 +834,705 @@ Once you accept that, everything else falls into place.
 
 ---
 
+---
+
+## 🧱 1. Layers of validation (core architecture)
+
+### ✅ Controller
+
+👉 Structural validation
+
+Examples:
+
+- null
+    
+- empty
+    
+- format
+    
+- length
+    
+
+Tools:
+
+- DTO + `@Valid`
+    
+
+Purpose:  
+➡️ “Is request well-formed?”
+
+---
+
+### ✅ Domain
+
+👉 Invariants (always true)
+
+Examples:
+
+- age > 18
+    
+- new name != old name
+    
+- no negative counters
+    
+
+Lives in:
+
+- constructors
+    
+- domain methods
+    
+
+Purpose:  
+➡️ “Can this object exist in this state?”
+
+---
+
+### ✅ Service
+
+👉 Business/context rules
+
+Examples:
+
+- email unique
+    
+- date not future
+    
+- user allowed now
+    
+
+Depends on:
+
+- DB
+    
+- time
+    
+- workflows
+    
+
+Purpose:  
+➡️ “Is operation allowed now?”
+
+---
+
+---
+
+# 🔐 2. Spring Security structure
+
+### Location:
+
+```
+com.bloomconnect.security (or config)
+```
+
+Security = infrastructure, not domain.
+
+---
+
+## 🛡️ 3. Security layers
+
+### SecurityFilterChain (coarse)
+
+Controls:
+
+- public vs protected URLs
+    
+- broad role groups
+    
+
+Example:
+
+```java
+.requestMatchers("/admin/**").hasRole("ADMIN")
+```
+
+---
+
+### @PreAuthorize (fine-grained)
+
+Controls:
+
+- business operations
+    
+- ownership
+    
+- precise permissions
+    
+
+Example:
+
+```java
+@PreAuthorize("hasRole('USER')")
+```
+
+---
+
+---
+
+# 🌍 4. IAM mental model (universal)
+
+|Concept|Keycloak|Azure|GCP|
+|---|---|---|---|
+|Tenant|Realm|Directory|Org|
+|App|Client|App registration|OAuth client|
+|User|User|User|User|
+|Roles|Realm roles|App roles|IAM roles|
+|Token|JWT|JWT|JWT|
+
+Flow everywhere:
+
+User → IAM → JWT → Backend → Authorization
+
+---
+
+# 🧾 5. JWT + OIDC basics
+
+JWT contains:
+
+### Standard claims:
+
+- sub (user id)
+    
+- iss (issuer)
+    
+- exp
+    
+- aud
+    
+- name/email (optional)
+    
+
+### Custom claims:
+
+- roles
+    
+- metadata
+    
+- tier
+    
+- org
+    
+
+OIDC defines identity claims.
+
+Authorization claims (roles) are provider-specific.
+
+---
+
+---
+
+# 🔄 6. Spring Security JWT flow
+
+1️⃣ Request comes with JWT  
+2️⃣ Spring validates signature & expiry  
+3️⃣ JWT converted to Authentication  
+4️⃣ Authorities extracted  
+5️⃣ SecurityContext populated
+
+---
+
+# 👤 7. Authentication object structure
+
+```
+Authentication
+ ├── principal   -> user identity (JWT by default)
+ ├── authorities -> roles/permissions
+ └── credentials -> unused for JWT
+```
+
+---
+
+# 🔧 8. Why JwtAuthenticationConverter exists
+
+Spring doesn’t know where IAM puts roles.
+
+Each provider differs:
+
+|Provider|Role location|
+|---|---|
+|Keycloak|realm_access.roles|
+|Azure|roles|
+|Auth0|permissions|
+
+So we tell Spring:
+
+👉 “Extract roles from here.”
+
+---
+
+# ✅ 9. Keycloak Realm role mapping code
+
+```java
+@Bean
+JwtAuthenticationConverter jwtAuthenticationConverter() {
+
+    JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+
+    converter.setJwtGrantedAuthoritiesConverter(jwt -> {
+
+        Map<String, Object> realmAccess = jwt.getClaim("realm_access");
+        if (realmAccess == null) return List.of();
+
+        List<?> roles = (List<?>) realmAccess.get("roles");
+        if (roles == null) return List.of();
+
+        return roles.stream()
+                .map(Object::toString)
+                .map(role -> (GrantedAuthority) 
+                     new SimpleGrantedAuthority("ROLE_" + role))
+                .collect(Collectors.toList());
+    });
+
+    return converter;
+}
+```
+
+---
+
+# 🔌 10. Wiring JWT in Spring Boot
+
+### application.yml
+
+```yaml
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/bloomconnect
+```
+
+---
+
+### SecurityConfig
+
+```java
+.oauth2ResourceServer(oauth ->
+    oauth.jwt(jwt -> 
+        jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())
+    )
+)
+```
+
+---
+
+# 🎯 11. Where user info lives
+
+- Roles → `authentication.getAuthorities()`
+    
+- Identity data → `authentication.getPrincipal()` (JWT)
+    
+
+Example:
+
+```java
+Jwt jwt = (Jwt) auth.getPrincipal();
+jwt.getSubject();
+jwt.getClaim("email");
+```
+
+---
+
+# 🧩 12. Custom principal (optional later)
+
+You can map JWT → custom user object for cleaner ownership logic.
+
+Roles still live in authorities.
+
+---
+
+# 🏰 13. Realm roles vs Client roles
+
+### Realm roles:
+
+- global
+    
+- simple
+    
+- great for most apps
+    
+
+Stored in:
+
+```
+realm_access.roles
+```
+
+---
+
+### Client roles:
+
+- app-specific
+    
+- fine-grained
+    
+
+Stored in something like:
+
+```
+resource_access[client-id].roles
+```
+
+👉 Mapping code is basically same, just different claim path.
+
+Your instinct was correct 👍
+
+---
+
+# ⚠️ 14. Keycloak dev mode notes
+
+- temp admin user = normal
+    
+- dev DB may reset
+    
+- required actions block token issuing
+    
+
+---
+
+# 📌 15. Password grant
+
+Used for dev/testing.
+
+In real apps:
+
+👉 React uses Authorization Code Flow.
+
+---
+
+## ✅ Big picture stack you now know
+
+✔ Spring Security  
+✔ JWT  
+✔ OAuth2  
+✔ OpenID Connect  
+✔ Role-based auth  
+✔ Enterprise IAM model
+
+---
+
+# 📚 Spring Security + JWT — Authentication, Principal & Converters (Complete Notes)
+
+---
+
+## 🔐 1. What happens when a JWT hits your backend?
+
+High level pipeline:
+
+```
+Request
+ → JWT extracted from header
+ → JWT signature validated
+ → JWT parsed into Jwt object
+ → Authentication created
+ → Stored in SecurityContext
+```
+
+From this point on:
+
+👉 Your app no longer works with “token”  
+👉 It works with `Authentication`
+
+---
+
+## 🧩 2. What is Authentication?
+
+Think of it as a container with 3 things:
+
+```
+Authentication
+ ├─ principal     → WHO the user is
+ ├─ credentials   → PROOF (password/token)
+ └─ authorities   → WHAT they can access
+```
+
+### Important:
+
+There is only ONE principal.
+
+When people say:
+
+> authenticated principal
+
+They literally mean:
+
+👉 `authentication.getPrincipal()`
+
+Same thing.
+
+---
+
+## 📦 3. Why does getPrincipal() return Object?
+
+Because Spring is generic.
+
+Principal can be:
+
+• Jwt  
+• UserDetails  
+• String  
+• Custom object
+
+Spring doesn’t care — you decide.
+
+So method returns `Object`.
+
+You cast based on setup.
+
+---
+
+## ✅ 4. Default JWT behavior (OAuth2 Resource Server)
+
+If you use:
+
+```
+oauth2ResourceServer().jwt()
+```
+
+(Spring’s modern way)
+
+Then automatically:
+
+```
+principal   = Jwt object
+credentials = Jwt (or ignored)
+authorities = extracted from claims
+```
+
+👉 NO setup required  
+👉 This is default
+
+So:
+
+```
+authentication.getPrincipal() → Jwt
+```
+
+---
+
+### What’s inside Jwt?
+
+Not just token string.
+
+It has:
+
+• headers  
+• claims (sub, roles, email, exp, etc)  
+• timestamps  
+• raw token value
+
+JWT becomes your **identity container**.
+
+---
+
+## ❗ 5. Does Spring ever automatically create UserDetails from JWT?
+
+👉 NO.
+
+Never by default.
+
+If you see:
+
+```
+(UserDetails) authentication.getPrincipal()
+```
+
+That ONLY works if:
+
+✅ you explicitly mapped JWT → UserDetails
+
+Spring won’t do it magically.
+
+---
+
+## 🔄 6. What is JwtAuthenticationConverter?
+
+Despite the big name 😅 it mainly exists to:
+
+👉 customize authorities (roles/scopes)
+
+Spring internally does:
+
+```
+Jwt → JwtAuthenticationToken
+```
+
+and exposes hook only for:
+
+✔ authorities mapping
+
+NOT for:
+
+❌ principal  
+❌ credentials
+
+By design.
+
+---
+
+### Why?
+
+Because Spring assumes:
+
+> “Jwt itself already represents identity + proof”
+
+So they locked:
+
+principal = Jwt
+
+and let you only tweak roles.
+
+---
+
+## 🧠 7. So how do we customize principal?
+
+There are TWO approaches:
+
+---
+
+### ✅ Approach A (modern & recommended)
+
+Keep:
+
+```
+principal = Jwt
+```
+
+Just read claims wherever needed.
+
+Example conceptually:
+
+```
+userId = jwt.sub
+email  = jwt.claim("email")
+```
+
+✔ fast  
+✔ stateless  
+✔ scalable
+
+This is what most microservices do.
+
+---
+
+### ✅ Approach B (full custom mapping)
+
+You replace default behavior with your own converter:
+
+```
+Jwt → Authentication (you build it)
+```
+
+Inside you:
+
+• extract username/userId from JWT  
+• optionally load user from DB  
+• set:
+
+```
+principal = UserDetails (or custom object)
+credentials = null
+authorities = roles
+```
+
+Now:
+
+```
+getPrincipal() → UserDetails
+```
+
+But:
+
+⚠️ DB lookup on every request  
+⚠️ hurts scalability
+
+(acceptable for small systems)
+
+---
+
+## 🔐 8. What about credentials in JWT auth?
+
+You were spot on 👍
+
+In JWT world:
+
+👉 credentials are basically useless after verification
+
+Best practice:
+
+```
+credentials = null
+```
+
+or left internally as token.
+
+Because:
+
+• no password  
+• token already verified
+
+JWT = proof + identity combined.
+
+---
+
+## 📊 9. Quick truth table
+
+|Setup|Principal|Who sets it|Typical use|
+|---|---|---|---|
+|Default resource server|Jwt|Spring|Modern APIs|
+|JwtAuthenticationConverter|Jwt|Spring|Only role mapping|
+|Custom converter|UserDetails/custom|You|Legacy / DB-based|
+|Custom filter|Anything|You|DIY setups|
+
+---
+
+## 🧠 10. The BIG mental model (remember this)
+
+JWT is just a proof sent by client.
+
+Spring turns it into:
+
+👉 Authentication object
+
+From then on:
+
+Your system talks to **principal**, not token.
+
+Sometimes principal is:
+
+🪪 Jwt (claims container)  
+🪪 UserDetails (DB-backed user)
+
+Both are valid designs.
+
+---
+
+## 🎯 11. Why Spring prefers Jwt as principal by default
+
+Because:
+
+✅ JWT already contains identity  
+✅ avoids DB calls  
+✅ truly stateless  
+✅ scales better
+
+UserDetails mapping is more “old Spring session era” thinking.
+
+---
+
+## 🧩 Final super-simple summary
+
+👉 `getPrincipal()` = authenticated user representation  
+👉 Default JWT setup → principal is Jwt  
+👉 UserDetails only appears if YOU map it  
+👉 JwtAuthenticationConverter mainly customizes authorities  
+👉 For full control → custom converter  
+👉 Credentials usually ignored in JWT
+
+---
+
+If you internalize just this one line, you’re golden:
+
+> Spring turns JWT into Authentication. By default the JWT itself becomes the principal. Anything else requires explicit mapping.
+
+---
