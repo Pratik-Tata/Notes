@@ -1536,3 +1536,302 @@ If you internalize just this one line, you’re golden:
 > Spring turns JWT into Authentication. By default the JWT itself becomes the principal. Anything else requires explicit mapping.
 
 ---
+
+# 🔐 OAuth2 / OIDC Core Actors (quick base)
+
+• **Client** → your app (frontend, backend, mobile)  
+• **Authorization Server** → Keycloak, Google, etc  
+• **Resource Server** → backend API  
+• **User (resource owner)**
+
+Goal:  
+👉 user authenticates once  
+👉 client gets token  
+👉 token accesses backend safely
+
+---
+
+# 🔄 Standard Flow (Authorization Code Flow)
+
+### What happens:
+
+1. Client redirects user to auth server login page
+    
+2. User logs in there
+    
+3. Auth server redirects back with **authorization code**
+    
+4. Client exchanges code with auth server for **tokens**
+    
+
+### Important:
+
+• browser only sees short-lived code  
+• token is obtained server-to-server (secure)
+
+### Why it exists:
+
+✅ prevents token leaks in browser  
+✅ client never sees user password  
+✅ supports SSO
+
+### Used by:
+
+• Google login  
+• enterprise SSO  
+• modern web/mobile apps
+
+### Modern best practice.
+
+---
+
+# 🔑 PKCE (Proof Key for Code Exchange)
+
+Used with Standard Flow mainly for **public clients** (SPAs, mobile).
+
+### Idea:
+
+Since public apps can’t store client_secret safely:
+
+1. client creates random secret (verifier)
+    
+2. sends hashed version (challenge) in auth request
+    
+3. later proves it during token exchange
+    
+
+### Why:
+
+✅ prevents stolen auth code attacks
+
+### Recommended:
+
+👉 PKCE with S256
+
+---
+
+# 🚫 Implicit Flow (Deprecated)
+
+### What happens:
+
+1. redirect to auth server login
+    
+2. user logs in
+    
+3. auth server redirects back with **token directly in URL**
+    
+
+### Problems:
+
+❌ token exposed in browser  
+❌ stored in history/logs  
+❌ easy to steal
+
+### Status:
+
+⚠️ Deprecated. Do not use.
+
+---
+
+# 🚫 Direct Access Grant (Resource Owner Password Grant)
+
+### What happens:
+
+1. client shows its own login form
+    
+2. user enters username/password
+    
+3. client sends creds directly to auth server
+    
+4. auth server returns token
+    
+
+### Why it exists:
+
+• legacy apps  
+• scripts/CLI  
+• trusted internal systems
+
+### Problems:
+
+❌ app handles passwords  
+❌ breaks OAuth trust separation  
+❌ higher risk
+
+### Status:
+
+⚠️ discouraged but still supported
+
+---
+
+# 🔐 Client Authentication (ON/OFF)
+
+### OFF → Public Client
+
+• no client secret  
+• used by frontend/mobile apps
+
+Security relies on:
+
+👉 PKCE
+
+---
+
+### ON → Confidential Client
+
+• client must authenticate itself  
+• uses client_secret or cert
+
+Used by:
+
+• backend services  
+• server-side apps  
+• machine-to-machine
+
+Adds extra security layer:
+
+👉 “Who is allowed to ask for tokens?”
+
+---
+
+# 🧠 Authorization Services (Keycloak specific)
+
+Advanced permission system.
+
+Instead of just:
+
+• roles  
+• scopes
+
+You can define:
+
+• resources  
+• policies  
+• permissions
+
+Example:
+
+“User can view invoice only if owner and during business hours”
+
+Used in complex enterprise apps.
+
+Most apps keep it OFF.
+
+---
+
+# 🔁 Token Exchange
+
+Allows swapping one token for another.
+
+Example:
+
+• service A has token  
+• exchanges for token to call service B
+
+Used in:
+
+• microservices  
+• federation
+
+Advanced use case.
+
+---
+
+# 📱 OAuth2 Device Grant
+
+For devices without browser/keyboard.
+
+Flow:
+
+• device shows code  
+• user logs in on phone/computer  
+• device gets token
+
+Used in:
+
+Smart TVs, consoles, IoT.
+
+---
+
+# 📲 OIDC CIBA Grant
+
+Backchannel authentication.
+
+Flow:
+
+• login triggered  
+• user gets push notification  
+• approves  
+• token issued
+
+Used in:
+
+Banking, high-security environments.
+
+---
+
+# 🔐 DPoP (Proof of Possession Tokens)
+
+Instead of normal bearer token:
+
+👉 token is cryptographically bound to client
+
+So:
+
+Even if stolen → attacker can’t use it.
+
+Very secure.  
+New standard.  
+Rare in practice (yet).
+
+---
+
+# 🎯 Why redirect-based auth is king
+
+Because it ensures:
+
+✅ passwords only go to auth server  
+✅ client never touches credentials  
+✅ tokens exchanged securely
+
+Never proxy auth through backend.
+
+---
+
+# 📊 Clean flow comparison
+
+|Flow|Redirect Login|App sees password|Token via browser|Recommended|
+|---|---|---|---|---|
+|Standard|✅|❌|❌|✅|
+|Implicit|✅|❌|✅|❌|
+|Direct Access|❌|✅|❌|⚠️|
+
+---
+
+# 🧩 How frontend + backend usually works
+
+1. Frontend uses Standard Flow (+ PKCE)
+    
+2. Gets access token
+    
+3. Sends token to backend API
+    
+4. Backend validates token (resource server)
+    
+
+Backend NEVER handles login UI.
+
+---
+
+# 🏁 One master mental model
+
+OAuth splits responsibility:
+
+Auth Server → authentication + token issuing  
+Client → uses token  
+Resource Server → validates token
+
+Never mix these roles.
+
+---
+
