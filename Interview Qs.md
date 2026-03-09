@@ -23,3 +23,70 @@ b. Take out average salary based on employee gender.
 18. Write a java 8 program to print employee details working in each department
 19. Write a java 8 program to print max salary of employee in each department max/min employee salary in given collection.
 20. Write a Java 8 method to find the sum of all elements in a List of integers.
+
+1)You migrated a monolith to microservices how did you identify service boundaries when data was tightly coupled?  
+2)After the split, where did the system break first (data consistency, APIs, transactions), and how did you stabilize it?  
+3)How did you handle cross-service transactions without using distributed transactions?  
+4)How did you design service-to-service communication to avoid cascading failures under load?  
+5)You used Kafka what problem was Kafka solving that REST calls couldn’t?  
+6)How did you decide the Kafka partitioning strategy, and what would break if it was chosen incorrectly?  
+7)How did you handle duplicate events and ensure idempotency on the consumer side?  
+8)What happens in your system if a Kafka consumer crashes mid-processing, and how is data consistency preserved?  
+9)You worked with Spring Batch why was batch processing required instead of streaming the same data through Kafka?  
+10)How did Spring Batch jobs authenticate with AWS (S3 / infrastructure), and what security risks did this introduce?
+
+
+JAVA INTERVIEW QUESTIONS - PART-1  
+🟢 BASIC (Must Know)  
+1. Why is String immutable, and why useful?  
+2. Difference between ==, equals(), hashCode()  
+3. How does Java achieve runtime platform independence?  
+4. What happens with new String("Java") internally?  
+5. Why no pointers in Java, yet efficient memory?  
+6. Explain pass-by-value with object refs.  
+7. What GC solves, and what it doesn’t?  
+8. When use abstract class vs interface?  
+9. Why wrapper classes immutable, and caching impact?  
+10. Compilation vs runtime error examples.  
+11. How Java handles integer overflow, why risky?  
+12. Why StringBuilder faster than StringBuffer, uses?  
+13. explain final, static, private.  
+14. Why Object class is important?  
+15. How Java ensures backward compatibility?  
+  
+🟡 INTERMEDIATE (Most Candidate Fail Here)  
+16. How HashMap works ? explain resize, treeify.  
+17. Why Why is hashCode() contract matters, breakage if violated.  
+18. HashMap vs LinkedHashMap vs TreeMap failure cases.  
+19. Behaviour of HashMap in Multi-threaded env.  
+20. How memory model ensures thread visibility.  
+21. Stack vs heap vs metaspace.  
+22. Why volatile ≠ synchronized.  
+23. How synchronized works in JVM.  
+24. What is object escape analysis, how it improves performance.  
+25. Why double-checked locking fails w/o volatile.  
+26. How ConcurrentHashMap avoids full lock.  
+27. Fail-fast iterator how detects modification.  
+28. Why Optional bad for fields/params.  
+29. Checked exceptions why controversial.  
+30. Overloading with autoboxing + varargs.  
+31. Exception inside constructor effect.  
+32. Why finalize() dangerous + deprecated.  
+33. Shallow vs deep copy, clone pitfalls.  
+34. Internals working of Collections.synchronizedList()  
+35. Why prefer composition over inheritance.  
+  
+🔴 HARD (Checks in Depth Knowledge)  
+36. Class loading phases, static block timing.  
+37. How JVM picks GC algorithm.  
+38. G1 vs ZGC vs Shenandoah when use.  
+39. Cause of Stop-The-World pauses, minimize.  
+40. Memory leaks despite GC.  
+41. Diagnosing high CPU in production Java.  
+42. CompletableFuture vs traditional threads.  
+43. How JNI breaks JVM safety.  
+44. How JVM handles thread context switch.  
+45. Parallel streams internal working.  
+46. Why blocking in parallel streams harmful.  
+47. Backpressure in reactive systems and how its handled ?  
+48. JVM hot code path optimization.  
