@@ -1,98 +1,41 @@
 {
   "main": {
-    "id": "9631d862d631408a",
+    "id": "7a7378d9c4391fda",
     "type": "split",
     "children": [
       {
-        "id": "b6cbf299baf75baf",
+        "id": "f6007cc51be38bff",
         "type": "tabs",
         "children": [
           {
-            "id": "21e33ffe9185e783",
+            "id": "c114e5c7c60e4301",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Kafka.md",
+                "file": "System Design.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Kafka"
-            }
-          },
-          {
-            "id": "587943d864f7a9e9",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Spring Security.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Spring Security"
-            }
-          },
-          {
-            "id": "5806f7c25644aacc",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "AI.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "AI"
-            }
-          },
-          {
-            "id": "04d11f9bba121473",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Interview Qs.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Interview Qs"
-            }
-          },
-          {
-            "id": "249556973ea5bfe9",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Maven.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "Maven"
+              "title": "System Design"
             }
           }
-        ],
-        "currentTab": 4
+        ]
       }
     ],
     "direction": "vertical"
   },
   "left": {
-    "id": "bc706ba5d81b3ecc",
+    "id": "92ec56cd988f33b7",
     "type": "split",
     "children": [
       {
-        "id": "54cf4d52c4321a7e",
+        "id": "a15b7791cb47d992",
         "type": "tabs",
         "children": [
           {
-            "id": "0584b03ca849a1b7",
+            "id": "86069c4486c90584",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -105,12 +48,12 @@
             }
           },
           {
-            "id": "a1180052a7246926",
+            "id": "37cf5fc165b4ae3a",
             "type": "leaf",
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "microservice",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -122,7 +65,7 @@
             }
           },
           {
-            "id": "265577ba214ec916",
+            "id": "ee153b37d68f07b0",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -131,27 +74,28 @@
               "title": "Bookmarks"
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 378.5
+    "width": 300
   },
   "right": {
-    "id": "4f9b0fe2abd2fde5",
+    "id": "0dd1bbcfacf83d51",
     "type": "split",
     "children": [
       {
-        "id": "e16628fcf58a8c0d",
+        "id": "bf0c1e1cf19b908b",
         "type": "tabs",
         "children": [
           {
-            "id": "425713be9df43294",
+            "id": "0761e0d3cbeceb0b",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "DBMS.md",
+                "file": "Kafka.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -161,25 +105,25 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for DBMS"
+              "title": "Backlinks for Kafka"
             }
           },
           {
-            "id": "666ea7f6f856c264",
+            "id": "3e6469fef7c919c7",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "DBMS.md",
+                "file": "Kafka.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from DBMS"
+              "title": "Outgoing links from Kafka"
             }
           },
           {
-            "id": "6961a6cde3acddf4",
+            "id": "f5dd00cf41ec2b5b",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -194,18 +138,32 @@
             }
           },
           {
-            "id": "6f9887664bd361ff",
+            "id": "890faae90e211db3",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "5f8729b49be3b6bd",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
-                "file": "DBMS.md",
+                "file": "Kafka.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of DBMS"
+              "title": "Outline of Kafka"
             }
           }
         ]
@@ -217,47 +175,22 @@
   },
   "left-ribbon": {
     "hiddenItems": {
-      "bases:Create new base": false,
       "switcher:Open quick switcher": false,
       "graph:Open graph view": false,
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
-      "command-palette:Open command palette": false
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
     }
   },
-  "active": "249556973ea5bfe9",
+  "active": "c114e5c7c60e4301",
   "lastOpenFiles": [
-    "Maven.md",
-    "Pasted image 20250927232551.png",
     "Master Guide to Software Design Diagrams.md",
-    "Java 8 to 21.md",
-    "API.md",
-    "JS Async Await.md",
-    "Interview Qs.md",
-    "AI.md",
-    "Interview questions",
-    "Spring Security.md",
     "Spring Kafka.md",
     "Kafka.md",
-    "Pratik Tata.md",
-    "Projects.md",
-    "Hibernate.md",
-    "DBMS.md",
-    "Git.md",
-    "Spring Boot Annotations Full Signature.md",
-    "System Design.md",
-    "Untitled.canvas",
-    "Untitled 2.base",
-    "Untitled 1.base",
     "Architecture Java, Maven.md",
-    "Multi-threading and concurrency.md",
-    "Time complexity Cheat Sheet.md",
-    "Untitled.base",
-    "Design Patterns.md",
-    "Misc.md",
-    "DSA.md",
-    "Interview Prep.md",
-    "Untitled 1.md"
+    "API.md",
+    "AI.md"
   ]
 }
