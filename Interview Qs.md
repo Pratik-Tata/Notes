@@ -90,3 +90,34 @@ JAVA INTERVIEW QUESTIONS - PART-1
 46. Why blocking in parallel streams harmful.  
 47. Backpressure in reactive systems and how its handled ?  
 48. JVM hot code path optimization.  
+    
+    
+- What is the difference between ArrayList and LinkedList? When would you use one over the other?
+- What is the `equals()`–`hashCode()` contract? Why is it important?
+- Immutable classes in Java and how do we implement one?
+- How does immutability help in multithreading?
+- What is the difference between `@Controller` and `@RestController` in Spring?
+- What is the Singleton pattern and how can you implement it in Java?
+- How would you modify a Singleton implementation to make it thread-safe?
+- Purpose of serialization in a POJO and in what scenarios is it commonly used?
+- Suppose you need to send a Java object over a network in a distributed application — what challenges arise and how would you handle them?
+- If you override `equals()` but do not override `hashCode()`, what could go wrong in a HashMap?
+- What happens if a hash function always returns the same value?
+- If all elements collide in a HashMap, what would be the performance impact?
+- What is the difference between fail-fast and fail-safe iterators in Java?
+- If you need to remove elements while iterating over a collection, which iterator would you choose and why?
+- Difference between abstraction and encapsulation?
+- Can a `@Controller` return a String or JSON response? How?
+- If you want to return both HTML views and JSON responses from a single controller, how can you achieve this?
+- How can we use the `@Value` annotation in Spring Boot?
+- What happens if two beans of the same type exist in the Spring context and you do not use `@Qualifier`?
+- What is `@Qualifier` and its use?
+- Explain the SOLID principles.
+- Suppose you are designing an e-commerce system where new payment methods need to be added frequently — how can SOLID help?
+- What are clustered and non-clustered indexes? How do they impact performance?
+- Explain the many-to-many association in Hibernate.
+- One employee has multiple managers and one manager has multiple employees — how many tables are required?
+- Write code for the circuit breaker pattern.
+- Write an SQL query to count duplicate values in a column.
+- How do you handle global exceptions in a Spring Boot application?
+- If you need a queue that frequently adds and removes elements from both ends, which list would you choose and why?
