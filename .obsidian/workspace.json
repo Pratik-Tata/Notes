@@ -20,8 +20,23 @@
               "icon": "lucide-file",
               "title": "Multi-threading and concurrency"
             }
+          },
+          {
+            "id": "d4ee3c446150df51",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Design Patterns.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Design Patterns"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -183,15 +198,20 @@
       "bases:Create new base": false
     }
   },
-  "active": "c114e5c7c60e4301",
+  "active": "d4ee3c446150df51",
   "lastOpenFiles": [
+    "DBMS.md",
+    "Architecture Java, Maven.md",
+    "API.md",
+    "Hibernate.md",
+    "Design Patterns.md",
+    "AWS.md",
+    "AI.md",
+    "Multi-threading and concurrency.md",
     "Interview Qs.md",
     "System Design.md",
     "Master Guide to Software Design Diagrams.md",
     "Spring Kafka.md",
-    "Kafka.md",
-    "Architecture Java, Maven.md",
-    "API.md",
-    "AI.md"
+    "Kafka.md"
   ]
 }
